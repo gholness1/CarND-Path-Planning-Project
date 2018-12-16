@@ -103,6 +103,6 @@ states:
 I recorded two videos, one for the Target Lane Return version and
 the other for the Lane Change Version.
 
-The Target Lane Return Version [https://youtu.be/kxHEH9LyKrg]
+The Target Lane Return Version [![Target Lane Return Version](https://img.youtube.com/vi/kxHEH9LyKrg/0.jpg)](https://youtu.be/kxHEH9LyKrg)
 
-The Lane Change Version [https://youtu.be/41iD3uzLPiE]
+The Lane Change Version [![Lane Change Version](https://img.youtube.com/vi/41iD3uzLPiE/0.jpg)](https://youtu.be/41iD3uzLPiE)
