@@ -110,3 +110,38 @@ the other for the Lane Change Version.
 
 ### The Lane Change Version 
 [![Lane Change Version](https://img.youtube.com/vi/41iD3uzLPiE/0.jpg)](https://youtu.be/41iD3uzLPiE)
+
+## Reflection
+
+Path generation takes a two step approach. The first ensures consistency from each iteration
+of the path planner to the next.  The second, produces waypoints along a smooth trajectory
+that obey a maximum reference velocity.
+
+1. Consistency across iterations of the path planner is achieved by inclusion of unconsumed waypoints
+   from the previous iteration.   This gives a consistency because the previous path is extended instead
+   of created from scratch. This also saves a little bit of computation.   In the beginning, when there
+   are very few points, we create such consistency by stepping back from the first point if needed.
+
+2. The generation of waypoints along a smooth trajectory is achieved using a spline fit to points
+   by looking ahead some distance in the longitudinal direction (Frenet coordinates) along the road.
+   The spline, what I call a lookahead spline, is then sampled by generating points that satisfy
+   the reference velocity.  This is done by manipulation of the motion equation velocity= distance/time.
+   The distance spanned by the spline is approximated as a straight line distance.   Using the Pythagorean
+   theorum as an approximator, the distance is computed from the starting point of the spline to the
+   lookahead (end point) of the spline.   Given this distance, we know the time for each iteration
+   is 0.02 seconds.  Given this, the calculation gives us a number of steps N used to achieve that
+   instance.   We have  N= (target_dist/(0.02 * ref_vel/2.24)).  This comes from...
+
+   The conversion of 2.24 is to convert velocity from miles/hour to meters/second. We know the
+   time to travel the distance is N-iterations times 0.02 seconds.  We know that the reference
+   velocity divided by 2.24 gives us the velocity in meters/second.   This should equal the
+   distance marked between the starting and endpoints for the spline.   We solve for N and this
+   gives us the number of increments we need to obtain each waypoint's x-component for the spline
+   sampling.   Given each x-component, we evaluate the spline to obtain the corresponding 
+   y-component.
+
+The aforementioned two steps together gives us the trajectory.  The nice part is that because
+we are working in Frenet coordinates, if we have a lane change, the only thing that changes
+is the starting (x,y) values for the spline and, therefore, the ending (x,y) values associated
+with a different lane.  We simply recalculate what the d-value is in Frenet and call getXY.
+Easy peasy smooth and breezy!
