@@ -130,7 +130,7 @@ that obey a maximum reference velocity.
    theorum as an approximator, the distance is computed from the starting point of the spline to the
    lookahead (end point) of the spline.   Given this distance, we know the time for each iteration
    is 0.02 seconds.  Given this, the calculation gives us a number of steps N used to achieve that
-   instance.   We have  N= (target_dist/(0.02 * ref_vel/2.24)).  This comes from...
+   instance.   We have  N= (target_dist/(0.02 * ref_vel/2.24)).  This comes from the velocity equation.
 
    The conversion of 2.24 is to convert velocity from miles/hour to meters/second. We know the
    time to travel the distance is N-iterations times 0.02 seconds.  We know that the reference
